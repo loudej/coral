@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coral.Engine", "src\Coral.Engine\Coral.Engine.csproj", "{8156B869-D1C8-4136-9943-CDF0C916C636}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coral", "src\Coral\Coral.csproj", "{47616315-D1FF-4FB6-8A44-18EECBE7261D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coral.Engine.Tests", "src\Coral.Engine.Tests\Coral.Engine.Tests.csproj", "{B24AC818-3BB3-423F-A799-6D2886F3DE17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47616315-D1FF-4FB6-8A44-18EECBE7261D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47616315-D1FF-4FB6-8A44-18EECBE7261D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47616315-D1FF-4FB6-8A44-18EECBE7261D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47616315-D1FF-4FB6-8A44-18EECBE7261D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8156B869-D1C8-4136-9943-CDF0C916C636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8156B869-D1C8-4136-9943-CDF0C916C636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8156B869-D1C8-4136-9943-CDF0C916C636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8156B869-D1C8-4136-9943-CDF0C916C636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B24AC818-3BB3-423F-A799-6D2886F3DE17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B24AC818-3BB3-423F-A799-6D2886F3DE17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B24AC818-3BB3-423F-A799-6D2886F3DE17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B24AC818-3BB3-423F-A799-6D2886F3DE17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = src\Coral.Engine\Coral.Engine.csproj
+	EndGlobalSection
+EndGlobal

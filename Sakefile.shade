@@ -1,0 +1,26 @@
+use-standard-lifecycle
+use namespace="System"
+use namespace="System.IO"
+use import="Files"
+
+var VERSION='0.0.1'
+var AUTHORS='Coral contributors'
+
+var BASE_DIR='${Directory.GetCurrentDirectory()}'
+var TARGET_DIR='${Path.Combine(BASE_DIR, "target")}'
+var BUILD_DIR='${Path.Combine(TARGET_DIR, "build")}'
+var TEST_DIR='${Path.Combine(TARGET_DIR, "test")}'
+var PACKAGE_DIR='${Path.Combine(TARGET_DIR, "package")}'
+
+#clean-target-dir target='clean'
+  @{
+    if (Directory.Exists(TARGET_DIR))
+    {
+        Log.Info("Deleting " + TARGET_DIR);
+        Directory.Delete(TARGET_DIR, true);
+    }
+  }
+
+#build-sln target='compile'
+  build projectFile='${BASE_DIR}/Coral.sln' configuration='Release' outputDir='${BUILD_DIR}'
+
