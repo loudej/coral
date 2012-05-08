@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Coral.Engine.Scheduler
+namespace Coral.Engine
 {
     public interface IScheduler
     {
         void Start();
         Task Stop();
-        void Post(Action work);
+        void Post(string label, Action work);
     }
 }

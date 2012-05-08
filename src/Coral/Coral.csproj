@@ -49,6 +49,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Options\StartOptions.cs" />
     <Compile Include="Starter.cs" />
+    <Compile Include="Util\ChangeErrorMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

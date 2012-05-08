@@ -9,19 +9,19 @@ namespace Coral.Options
         public StartOptions()
         {
             _optionSet
-                .Add("f|procfile:",
+                .Add("f=|procfile=",
                      "Specify an alternate Procfile to load, implies -d at the Procfile root.",
                      value => Procfile = value)
-                .Add("p|port:",
+                .Add("p=|port=",
                      "Specify which port to use as the base for this application. Should be a multiple of 1000.",
                      (int value) => Port = value)
-                .Add("c|concurrency:",
+                .Add("c=|concurrency=",
                      "Specify the number of each process type to run. The value passed in should be in the format process=num,process=num",
                      SetConcurrency)
-                .Add("d|directory:",
+                .Add("d=|directory=",
                      "Specify an alternate application root. This defaults to the directory containing the Procfile.",
                      value => Directory = value)
-                .Add("e|env:",
+                .Add("e=|env=",
                      "Specify an alternate environment file. You can specify more than one file by using: --env file1,file2.",
                      SetEnvironmentFile);
         }

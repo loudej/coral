@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Coral.Engine;
 using Coral.Engine.Logger;
-using Coral.Engine.Scheduler;
+using Coral.Engine.Tender;
 
 namespace Coral
 {
@@ -17,9 +17,10 @@ namespace Coral
         public static IContainer CreateContainer()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterType<CoralEngine>().As<ICoralEngine>();
+            builder.RegisterType<CoralEngine>().As<ICoralEngine>().SingleInstance();
+            builder.RegisterType<Scheduler>().As<IScheduler>().SingleInstance();
+            builder.RegisterType<ProcessTender>().As<IProcessTender>().SingleInstance();
             builder.RegisterType<ConsoleLoggerFactory>().As<ILoggerFactory>();
-            builder.RegisterType<DefaultScheduler>().As<IScheduler>();
             return builder.Build();
         }
     }

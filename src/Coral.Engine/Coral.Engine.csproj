@@ -36,12 +36,16 @@
     <Compile Include="AbstractService.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="CoralEngine.cs" />
+    <Compile Include="ICoralEngine.cs" />
     <Compile Include="Logger\ConsoleLoggerFactory.cs" />
     <Compile Include="Logger\ILoggerFactory.cs" />
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Logger\LoggerExtensions.cs" />
-    <Compile Include="Scheduler\IScheduler.cs" />
-    <Compile Include="Scheduler\DefaultScheduler.cs" />
+    <Compile Include="IScheduler.cs" />
+    <Compile Include="Scheduler.cs" />
+    <Compile Include="Tender\IProcessTender.cs" />
+    <Compile Include="Tender\ProcessDefinition.cs" />
+    <Compile Include="Tender\ProcessInstance.cs" />
     <Compile Include="Tender\ProcessTender.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

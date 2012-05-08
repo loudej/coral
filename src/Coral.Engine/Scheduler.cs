@@ -4,15 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Coral.Engine.Logger;
 
-namespace Coral.Engine.Scheduler
+namespace Coral.Engine
 {
-    public class DefaultScheduler : AbstractService, IScheduler
+    public class Scheduler : AbstractService, IScheduler
     {
         private enum State
         {
             Initial,
-            Starting,
-            Started,
+            Running,
             Stopping,
             Stopped,
         }
@@ -22,7 +21,7 @@ namespace Coral.Engine.Scheduler
         private readonly Queue<Action> _queue = new Queue<Action>();
         private Thread _thread;
 
-        public DefaultScheduler(ILoggerFactory loggerFactory) : base(loggerFactory)
+        public Scheduler(ILoggerFactory loggerFactory) : base(loggerFactory)
         {
         }
     
@@ -32,11 +31,11 @@ namespace Coral.Engine.Scheduler
             Log.Info("Start");
             lock (_sync)
             {
-                if (_state == State.Starting || _state == State.Stopping)
+                if (_state == State.Stopped || _state == State.Stopping)
                 {
                     throw new InvalidOperationException("Cannot start scheduler when state is " + _state);
                 }
-                _state = State.Starting;
+                _state = State.Running;
                 _thread = new Thread(ThreadProc);
                 _thread.Start();
             }
@@ -49,9 +48,9 @@ namespace Coral.Engine.Scheduler
             {
                 var tcs = new TaskCompletionSource<object>();
 
-                if (_state != State.Starting)
+                if (_state != State.Running && _state != State.Running)
                 {
-                    throw new InvalidOperationException("Cannot post work when scheduler state is " + _state);
+                    throw new InvalidOperationException("Cannot stop scheduler when state is " + _state);
                 }
                 _state = State.Stopping;
                 _queue.Enqueue(
@@ -63,7 +62,7 @@ namespace Coral.Engine.Scheduler
                                 {
                                     if (_state != State.Stopping)
                                     {
-                                        throw new InvalidOperationException("Cannot post work when scheduler state is " + _state);
+                                        throw new InvalidOperationException("Cannot stop when scheduler state is " + _state);
                                     }
                                     _thread = null;
                                     _state = State.Stopped;
@@ -80,19 +79,24 @@ namespace Coral.Engine.Scheduler
             }
         }
 
-        public void Post(Action work)
+        public void Post(string label, Action work)
         {
-            Log.Info("Post");
+            Log.Debug("Posting '{0}'", label);
             lock (_sync)
             {
-                if (_state != State.Starting)
+                if (_state != State.Running)
                 {
                     throw new InvalidOperationException("Cannot post work when scheduler state is " + _state);
                 }
-                _queue.Enqueue(work);
+                _queue.Enqueue(()=>
+                                   {
+                                       Log.Debug("Calling '{0}'", label);
+                                       work();
+                                   });
                 Monitor.Pulse(_sync);
             }
         }
+
 
         void ThreadProc()
         {
@@ -121,7 +125,7 @@ namespace Coral.Engine.Scheduler
                 }
                 catch (Exception ex)
                 {
-                    //todo: log
+                    Log.Error(ex);
                 }
             }
             Log.Info("Exit ThreadProc");
