@@ -4,13 +4,15 @@ use namespace="System.IO"
 use import="Files"
 
 var VERSION='0.0.1'
+var FULL_VERSION='${VERSION}'
 var AUTHORS='Coral contributors'
 
 var BASE_DIR='${Directory.GetCurrentDirectory()}'
 var TARGET_DIR='${Path.Combine(BASE_DIR, "target")}'
 var BUILD_DIR='${Path.Combine(TARGET_DIR, "build")}'
-var TEST_DIR='${Path.Combine(TARGET_DIR, "test")}'
 var PACKAGE_DIR='${Path.Combine(TARGET_DIR, "package")}'
+var HOME_DIR='${Environment.GetEnvironmentVariable("HOME")}'
+set HOME_DIR='${Environment.GetEnvironmentVariable("HOMEDRIVE") + Environment.GetEnvironmentVariable("HOMEPATH")}' if='string.IsNullOrEmpty(HOME_DIR)'
 
 #clean-target-dir target='clean'
   @{
@@ -21,6 +23,26 @@ var PACKAGE_DIR='${Path.Combine(TARGET_DIR, "package")}'
     }
   }
 
+
 #build-sln target='compile'
   build projectFile='${BASE_DIR}/Coral.sln' configuration='Release' outputDir='${BUILD_DIR}'
+  build projectFile='${BASE_DIR}/src/Coral/Coral.csproj' configuration='Release' outputDir='${PACKAGE_DIR}'
+
+
+#run-xunit target="test" description='Run xunit tests'
+  for each='var file in Files.Include("target/**/*.Tests.dll")'
+    xunit testFile='${file}'
+
+
+#run-nuget-pack target='package' description='Create NuGet packages'
+  for each='var file in Files.Include("target/package/**/*.nuspec")'
+    nuget-pack nuspecFile='${file}' packageVersion='${FULL_VERSION}' outputDir='${TARGET_DIR}' extra='-Properties "authors=${AUTHORS}" -NoPackageAnalysis'
+
+
+#install-nupkgs target='install' description='Copy NuGet packages to local repo'
+  copy sourceDir='${TARGET_DIR}' include='*.nupkg' outputDir='${HOME_DIR}/.nuget' overwrite='${true}'
+
+
+#push-nupkgs target='deploy' description='Upload NuGet packages to gallery'
+  nuget-push each='var nupkgFile in Files.Include("target/*.nupkg")'
 

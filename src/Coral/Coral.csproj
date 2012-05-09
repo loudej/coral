@@ -52,6 +52,9 @@
     <Compile Include="Util\ChangeErrorMode.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Coral.nuspec">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

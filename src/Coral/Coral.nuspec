@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Coral</id>
+    <title>Coral</title>
+    <version>$version$</version>
+    <authors>$authors$</authors>
+    <owners>$authors$</owners>
+    <summary>Coral</summary>
+    <description>Coral</description>
+    <!--<copyright></copyright>-->
+    <projectUrl>https://github.com/loudej/coral</projectUrl>
+    <licenseUrl>https://github.com/owin/gate/blob/master/LICENSE.txt</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--<iconUrl></iconUrl>-->
+    <!--<dependencies>
+    </dependencies>-->
+    <!--<releaseNotes></releaseNotes>-->
+  </metadata>
+  <files>
+    <file src="*.exe" target="bin" />
+    <file src="*.dll" target="bin" />
+  </files>
+</package>
