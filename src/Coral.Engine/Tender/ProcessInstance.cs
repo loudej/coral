@@ -7,11 +7,14 @@ namespace Coral.Engine.Tender
 {
     public class ProcessInstance
     {
+        private readonly TaskCompletionSource<object> _tcs = new TaskCompletionSource<object>();
+
         public ProcessInstance(ILoggerFactory loggerFactory, ProcessDefinition definition)
         {
             Definition = definition;
             Log = loggerFactory.Create(GetType());
             Output = loggerFactory.Create("Process." + definition.Name);
+            Exited = _tcs.Task;
         }
 
         public ILogger Log { get; set; }
@@ -37,14 +40,11 @@ namespace Coral.Engine.Tender
             };
 
             Log.Debug("Executing {0}", Definition.Command);
-            Process = Process.Start(info);
-
-            var tcs = new TaskCompletionSource<object>();
-            Exited = tcs.Task;
+            Process = Process.Start(info);            
 
             Process.OutputDataReceived += OutputDataReceived;
             Process.ErrorDataReceived += OutputDataReceived;
-            Process.Exited += (a, b) => tcs.TrySetResult(null);
+            Process.Exited += (a, b) => _tcs.TrySetResult(null);
             Process.EnableRaisingEvents = true;
 
             Process.BeginOutputReadLine();
