@@ -28,9 +28,7 @@ namespace Coral.Engine.Tender
         {
             var info = new ProcessStartInfo
             {
-                FileName = "cmd.exe",
                 WorkingDirectory = Definition.WorkingDirectory,
-                Arguments = "/D /C " + Definition.Command,
                 UseShellExecute = false,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
@@ -38,7 +36,18 @@ namespace Coral.Engine.Tender
                 ErrorDialog = false,
                 CreateNoWindow = false,
             };
-
+            
+            if (IsLinux)
+            {
+                info.FileName = "sh";
+                info.Arguments = "-c \"" + Definition.Command.Replace("\"", "\\\"") + "\"";
+            }
+            else
+            {
+                info.FileName = "cmd.exe";
+                info.Arguments = "/D /C " + Definition.Command;
+            }
+            
             Log.Debug("Executing {0}", Definition.Command);
             Process = Process.Start(info);            
 
@@ -51,6 +60,15 @@ namespace Coral.Engine.Tender
             Process.BeginErrorReadLine();
         }
 
+        bool IsLinux
+        {
+            get 
+            {
+                var platform = (int) Environment.OSVersion.Platform;
+                return (platform == 4) || (platform == 6) || (platform == 128);
+            }
+        }
+        
         private void OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             Output.Data(e.Data);

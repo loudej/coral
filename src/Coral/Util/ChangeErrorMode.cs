@@ -19,11 +19,31 @@ namespace Coral.Util
 
         public ChangeErrorMode(ErrorModes mode)
         {
-            _oldMode = SetErrorMode((int)mode);
+            _oldMode = (int)ErrorModes.Default;
+            
+            if (!IsLinux)
+            {
+                _oldMode = SetErrorMode((int)mode);
+            }
         }
 
-        void IDisposable.Dispose() { SetErrorMode(_oldMode); }
+        void IDisposable.Dispose() 
+        {
+            if (!IsLinux)
+            {
+                SetErrorMode(_oldMode); 
+            }
+        }
 
+        bool IsLinux
+        {
+            get 
+            {
+                var platform = (int) Environment.OSVersion.Platform;
+                return (platform == 4) || (platform == 6) || (platform == 128);
+            }
+        }
+        
         [DllImport("kernel32.dll")]
         private static extern int SetErrorMode(int newMode);
     }
